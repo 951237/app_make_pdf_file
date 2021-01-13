@@ -6,14 +6,11 @@ import platform
 # 운영체제에 따라 작업폴더 패스 설정
 def check_os():
     if platform.system() == 'Darwin':
-        print('Your system is Mac OS')
-        return '/Users/mac/Desktop/영민스캔/'
+        return '/Users/mac/Desktop/영민스캔/'   # 바탕화면 '영민스캔'폴더
     elif platform.system() == 'Windows':
-        print('Your system is Windows')
-        return 'C:\\Users\\User\\Desktop\\영민스캔\\'
+        return 'C:\\Users\\User\\Desktop\\영민스캔\\'   # 바탕화면 영민 스캔 폴더
     
 PATH_FILE = check_os()
-print(PATH_FILE)
 
 # 파일의 갯수 세어서 반복 회수 카운팅
 num_file = len(glob.glob(f'{PATH_FILE}*.*')) / 2 + 1
