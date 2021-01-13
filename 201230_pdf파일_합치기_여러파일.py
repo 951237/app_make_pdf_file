@@ -1,24 +1,35 @@
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 import glob
 from tqdm import tqdm
+import platform
 
-# PDF 보관 폴더
-PATH_FILE = 'C:\\Users\\User\\Desktop\\영민스캔'
+# 운영체제에 따라 작업폴더 패스 설정
+def check_os():
+    if platform.system() == 'Darwin':
+        print('Your system is Mac OS')
+        return '/Users/mac/Desktop/영민스캔/'
+    elif platform.system() == 'Windows':
+        print('Your system is Windows')
+        return 'C:\\Users\\User\\Desktop\\영민스캔\\'
+    
+PATH_FILE = check_os()
+print(PATH_FILE)
 
 # 파일의 갯수 세어서 반복 회수 카운팅
-num_file = len(glob.glob(f'{PATH_FILE}\\*.*')) / 2 + 1
+num_file = len(glob.glob(f'{PATH_FILE}*.*')) / 2 + 1
 
 # 파일 만들기 반복
 for i in tqdm(range(1, int(num_file)), desc='PDF 파일 합치기'):     # 파일의 전체수의 반만큼 반복(2개를 1개로 합쳐야 함)
-    file_1 = f'{PATH_FILE}\\0{i}_01.pdf'
-    file_2 = f'{PATH_FILE}\\0{i}_02.pdf'
+    file_1 = f'{PATH_FILE}0{i}_01.pdf'
+    file_2 = f'{PATH_FILE}0{i}_02.pdf'
 
     # 결과파일 패스
-    result = f'C:\\Users\\User\\Desktop\\result_0{i}.pdf'
+    result = f'{PATH_FILE}result_0{i}.pdf'
 
     # 파일 불러오기
     file1 = PdfFileReader(open(file_1, "rb"), strict=False)
     file2 = PdfFileReader(open(file_2, "rb"), strict=False)
+    print('Complete to load files!')
 
     # pdf writer
     output = PdfFileWriter()
@@ -35,3 +46,4 @@ for i in tqdm(range(1, int(num_file)), desc='PDF 파일 합치기'):     # 파�
 
     output.write(outputStream)
     outputStream.close()
+    print('Complete to merge files!')
